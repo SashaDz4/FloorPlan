@@ -12,9 +12,8 @@ from .config import Config
 from .core.plan import Plan
 from .detection.polygons import PolygonBuilder
 from .detection.regions import RegionExtractor, open_boundary_ratio
-from .rendering.overlay import Annotator, graph_view
+from .rendering.overlay import Annotator
 from .core.room import Room
-from .detection.wallgraph import WallGraph
 from .detection.walls import WallDetector
 
 
@@ -23,32 +22,25 @@ class Analysis:
 
     def __init__(self, plan: Plan, rooms: List[Room], labels: np.ndarray,
                  barrier: np.ndarray, wall_tops: np.ndarray,
-                 graph: WallGraph, report: Dict):
+                 report: Dict):
         self.plan = plan
         self.rooms = rooms
         self.labels = labels
         self.barrier = barrier
         self.wall_tops = wall_tops
-        self.graph = graph
         self.report = report
 
     @property
     def annotated(self) -> np.ndarray:
         return Annotator(self.plan.bgr, self.rooms).render(self.labels, self.wall_tops)
 
-    @property
-    def wall_graph_image(self) -> np.ndarray:
-        return graph_view(self.plan.bgr, self.graph)
-
     def write(self, out_dir: Path) -> Dict[str, Path]:
         out_dir.mkdir(parents=True, exist_ok=True)
         stem = self.plan.path.stem
         paths = {"annotated": out_dir / f"{stem}__annotated.png",
-                 "walls": out_dir / f"{stem}__walls.png",
                  "json": out_dir / f"{stem}__rooms.json"}
 
         cv2.imwrite(str(paths["annotated"]), self.annotated)
-        cv2.imwrite(str(paths["walls"]), self.wall_graph_image)
         paths["json"].write_text(json.dumps(self.report, indent=2), encoding="utf-8")
         return paths
 
@@ -76,12 +68,11 @@ class FloorPlanAnalyzer:
         barrier = ((barrier > 0) & (labels == 0)).astype(np.uint8)
         wall_tops = walls.tops(barrier)
 
-        graph = WallGraph.from_mask(wall_tops, plan.scale, self.cfg)
         rooms = self._build_rooms(plan, labels, regions.ids)
         self._measure(plan, rooms, total_area_sqft)
         report = self._report(plan, rooms, barrier, wall_tops, regions.rejected,
-                              total_area_sqft, graph)
-        return Analysis(plan, rooms, labels, barrier, wall_tops, graph, report)
+                              total_area_sqft)
+        return Analysis(plan, rooms, labels, barrier, wall_tops, report)
 
     def _build_rooms(self, plan: Plan, labels: np.ndarray,
                      ids: List[int]) -> List[Room]:
@@ -116,7 +107,7 @@ class FloorPlanAnalyzer:
 
     @staticmethod
     def _report(plan: Plan, rooms: List[Room], barrier, wall_tops,
-                rejected, total_area_sqft, graph) -> Dict:
+                rejected, total_area_sqft) -> Dict:
         total = sum(r.area_px for r in rooms)
         enclosed = sum(r.area_px for r in rooms if r.is_enclosed)
         calibration = None
@@ -139,7 +130,6 @@ class FloorPlanAnalyzer:
             "total_room_area_px": total,
             "room_count": len(rooms),
             "calibration": calibration,
-            "wall_graph": graph.to_dict(),
             "rejected_regions": rejected,
             "config": plan.cfg.to_dict(),
             "rooms": [r.to_dict() for r in rooms],

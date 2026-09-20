@@ -17,7 +17,6 @@ import numpy as np
 from ..analyzer import Analysis, FloorPlanAnalyzer
 from ..config import Config
 from ..core.imaging import SUPPORTED_SUFFIXES, list_images
-from ..rendering.overlay import graph_view
 
 # Parameters the UI may change: type, range and slider step. Anything not listed
 # here cannot be set from a request.
@@ -28,7 +27,6 @@ from ..rendering.overlay import graph_view
 # region_min_area_frac at step 0.001 (0.004 snapped to 0.0045 and dropped a
 # room). validate_grid() below makes that failure loud instead.
 ADJUSTABLE: Dict[str, tuple] = {
-    "door_sever_frac": (float, 0.005, 0.120, 0.001),
     "wall_delta": (int, 0, 40, 1),
     "region_min_area_frac": (float, 0.0005, 0.0500, 0.0005),
     "wall_top_tolerance": (int, 2, 40, 1),
@@ -36,8 +34,8 @@ ADJUSTABLE: Dict[str, tuple] = {
 
 MAX_UPLOAD_BYTES = 25 * 1024 * 1024
 
-# What one analysis hands back: the report, the room overlay, the wall graph.
-Cached = Tuple[Dict, bytes, bytes]
+# What one analysis hands back: the report and the room overlay.
+Cached = Tuple[Dict, bytes]
 
 
 def validate_grid() -> None:
@@ -158,8 +156,7 @@ class AnalysisService:
         report = dict(analysis.report)
         if display_name:
             report["image"] = display_name
-        return (report, _png(analysis.annotated),
-                _png(graph_view(analysis.plan.bgr, analysis.graph)))
+        return report, _png(analysis.annotated)
 
 
 def _png(image: np.ndarray) -> bytes:

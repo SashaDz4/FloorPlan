@@ -2,28 +2,24 @@
 
 A transparent, classical-CV prototype that takes a single 3D apartment floor-plan
 render and produces an approximate 2D room layout: room-like regions, their
-boundaries as polygons, their relative pixel areas, and a graph of the wall
-centrelines with the corners and junctions along them.
+boundaries as polygons, and their relative pixel areas.
 
 No training data, no model weights, no network access - just OpenCV and NumPy,
 and no manual correction step: every result below is what the pipeline produces
 on its own. A small local UI comes with it for driving the pipeline by hand.
 
-| rooms | walls |
-| --- | --- |
-| ![rooms](data/outputs/heritage%20towers_a1_1%20Bed%201%20Bath%20593%20Sq.%20Ft.__annotated.png) | ![wall graph](data/outputs/heritage%20towers_a1_1%20Bed%201%20Bath%20593%20Sq.%20Ft.__walls.png) |
+![rooms](data/outputs/heritage%20towers_a1_1%20Bed%201%20Bath%20593%20Sq.%20Ft.__annotated.png)
 
-Each region filled and measured, and the wall network reduced to centrelines
-with its corners and junctions marked. Both come from one 3D render, with no
-input beyond the image itself.
+Every region filled, outlined and measured, from one 3D render with no input
+beyond the image itself.
 
-One render in, three files out:
+The UI is the default way in; `--batch` writes the files instead. One render
+in, two files out:
 
 | file | holds |
 | --- | --- |
 | `<name>__annotated.png` | rooms filled, outlined and labelled with their share |
-| `<name>__walls.png` | wall centrelines, corners and junctions |
-| `<name>__rooms.json` | polygons, areas and the wall graph, as data |
+| `<name>__rooms.json` | polygons and areas, as data |
 
 ---
 
@@ -32,43 +28,44 @@ One render in, three files out:
 ### Docker Compose (recommended)
 
 ```bash
-docker compose up --build          # batch: analyse everything into data/outputs
-docker compose up ui               # local UI on http://localhost:8000
+docker compose up --build          # local UI on http://localhost:8000
 ```
 
-Batch reads everything in `./data/input_images` and writes to `./data/outputs`.
+That is the normal way to use it. For a one-off batch run that writes files into
+`data/outputs` instead:
+
+```bash
+docker compose run --rm batch
+```
 
 ### Docker
 
 ```bash
 docker build -t floorplan-2d .
-docker run --rm -v "$PWD/data:/app/data" \
-  floorplan-2d --input data/input_images --output data/outputs
+docker run --rm -p 127.0.0.1:8000:8000 -v "$PWD/data:/app/data" \
+  floorplan-2d --host 0.0.0.0
 ```
 
 ### Local Python (3.9+)
 
 ```bash
 pip install -r requirements.txt
-python main.py --input data/input_images --output data/outputs
+python main.py                     # UI on http://127.0.0.1:8000
+python main.py --batch             # analyse everything, write files
 ```
 
 `main.py` in the project root is the entry point; `python -m floorplan` works
 too, since the package sits at the root.
 
-### Local UI
+### The UI
 
-```bash
-python main.py --serve             # http://127.0.0.1:8000
-```
-
-A single page served by the standard library - no framework, no extra
-dependencies, no internet. Pick a bundled sample or drop in your own image, then
+Running with no arguments starts it. A single page served by the standard
+library - no framework, no extra dependencies, no internet. Pick a bundled sample or drop in your own image, then
 switch between the two views: **rooms** and **wall graph**.
 
-Four parameters are exposed as sliders and re-run the pipeline live -
-`door_sever_frac`, `wall_delta`, `region_min_area_frac` and
-`wall_top_tolerance`. Both views come back with every analysis, so switching
+Three parameters are exposed as sliders and re-run the pipeline live -
+`wall_delta`, `region_min_area_frac` and `wall_top_tolerance`. Anything else in
+the query is ignored: the slider list is an allowlist, not a hint. Both views come back with every analysis, so switching
 between them never re-runs anything. Whatever is on screen downloads as PNG, and
 the full report as JSON.
 
@@ -89,10 +86,14 @@ single user, one browser tab, not intended to face a network.
 
 ```
 --input PATH              image file or directory        [data/input_images]
+
+UI (default)
+--host HOST               interface to bind                      [127.0.0.1]
+--port PORT               port to bind                                [8000]
+
+batch (--batch)
+--batch                   analyse every input and write files, no UI
 --output DIR              output directory                    [data/outputs]
---serve                   start the local UI instead of a batch run
---host HOST               interface for --serve                  [127.0.0.1]
---port PORT               port for --serve                            [8000]
 --total-area-sqft FLOAT   optional calibration; pixel areas to sq ft
 --door-sever-frac FLOAT   door-cutting radius / sqrt(footprint area)  [0.040]
 --wall-delta INT          wall threshold below the brightness mode        [8]
@@ -114,13 +115,6 @@ confused; the two greys the palette used to carry were dropped for that reason.
 
 ![annotated rooms](data/outputs/limestone%20ranch_santa%20fe_625sq__annotated.png)
 
-**`<name>__walls.png`** — the wall network on its own: centrelines, with every
-corner and junction marked. Kept separate from the room overlay because stacking
-fills, room outlines, centrelines and nodes into one image left none of them
-readable.
-
-![wall graph](data/outputs/limestone%20ranch_santa%20fe_625sq__walls.png)
-
 **`<name>__rooms.json`**
 
 ```jsonc
@@ -138,17 +132,6 @@ readable.
   "room_count": 7,
   "calibration": null,              // populated by --total-area-sqft;
                                     // calibrated on enclosed rooms only
-  "wall_graph": {                   // centrelines and their key points
-    "node_count": 33, "edge_count": 21,
-    "corner_count": 17,             // wall changes direction here
-    "junction_count": 11,           // three or more walls meet
-    "endpoint_count": 5,            // free wall ends
-    "total_length_px": 4190.7,
-    "nodes": [{ "id": 1, "point_px": [586, 164],
-                "kind": "junction", "degree": 3 }],
-    "edges": [{ "id": 1, "from": 31, "to": 32,
-                "polyline_px": [[586, 164]], "length_px": 35.0 }]
-  },
   "rejected_regions": [],           // what was filtered out, and why
   "config": {},                     // every parameter used for this run
   "rooms": [
@@ -177,7 +160,7 @@ mask — the mask is the measurement, the polygon is the drawing.
 
 ## Approach
 
-Ten stages. Each is a separate class, so any one of them can be run on its own
+Nine stages. Each is a separate class, so any one of them can be run on its own
 against a `Plan` and its output looked at directly.
 
 ### 1. Polarity and footprint — separate the apartment from the page
@@ -389,56 +372,7 @@ barrier's own size stays available as `wall_barrier_area_px`.
 Verified not to open gaps: the wall network stays a single connected component
 on all three plans after the restriction.
 
-### 9. Wall graph - where the walls run and turn
-
-The mask says which pixels are wall; this says where the walls *run*. The mask
-is thinned to a one-pixel centreline, the centreline is split into runs between
-nodes, and each run is simplified into a polyline. The surviving points are the
-key points:
-
-| point | meaning |
-| --- | --- |
-| **corner** | two walls meet at an angle - the wall changes direction here |
-| **junction** | three or more walls meet - a T or a cross |
-| **endpoint** | one wall arrives - a free end, typically a door jamb |
-
-Corners are found two ways: at a node where exactly two runs meet at an angle,
-and mid-run, where a wall bends without anything else meeting it.
-
-Loose ends are reported where they are found. Bridging them to whatever they
-nearly touched was tried and removed: it did close the network, but every join
-was an invention, and the graph stopped saying where the walls actually stop.
-
-Getting a *connected* graph out of this took three corrections, each caught by
-checking the graph rather than the picture:
-
-* **Merging is a graph operation, not a pixel one.** The first version dilated
-  branch pixels to merge them. On a plan with thin walls that claimed 47% of
-  the skeleton as "node", leaving the runs between as disconnected stubs - the
-  graph fell apart and every break became a spurious free end. Now only the
-  branch pixels themselves are lifted out, and short edges are *contracted*
-  afterwards.
-* **A pass-through is dissolved, not deleted.** A node where two runs meet and
-  the wall simply continues is not a topological feature. Deleting it left the
-  edges pointing at ids that no longer existed, which after renumbering
-  silently aimed at unrelated nodes - a 760 px gap between an edge and the node
-  it claimed to start at. Its two runs are now joined into one.
-* **Polyline ends are snapped to their node.** Merging moves a node a few
-  pixels; without pulling its runs along, the drawn graph almost joined up.
-
-A node is classified by **how many runs actually leave it**, not by its pixel
-degree, so a bend is reported as a corner rather than lumped in with real
-T-junctions. Verified on every plan: edges reference only existing nodes, and
-the gap between an edge end and its node is 0.0 px.
-
-Thinning is `cv2.ximgproc.thinning` with `THINNING_ZHANGSUEN`. It lives in
-opencv-contrib, so the project depends on `opencv-contrib-python-headless`
-rather than the plain build - same wheel family, same `cv2` import, larger
-package. This replaced a hand-written implementation that produced **identical
-output, pixel for pixel**, on all three plans; the library one is C++ instead of
-a Python loop, and thinning is the slowest step in this stage.
-
-### 10. Polygons and areas
+### 9. Polygons and areas
 
 A closing pass removes the bite marks that white furniture standing against a
 wall leaves in the outline, then `findContours` + `approxPolyDP` produce the
@@ -500,24 +434,11 @@ hand-authored data ships with the repo.
 | `limestone ranch_santa fe` | 10 | Clean. Bedroom, bathroom, walk-in closet, four small closets, balcony and balcony store all separated. |
 | `highlandlux-citadel` | 11 | Bedroom, bathroom, patio, five closets and niches all separated. Kitchen stays merged with the dining area, which is correct here — they share a wide cased opening. |
 
-All three, rooms on top and the wall graph beneath:
+All three:
 
 | `heritage towers_a1` | `limestone ranch_santa fe` | `highlandlux-citadel` |
 | --- | --- | --- |
 | ![heritage rooms](data/outputs/heritage%20towers_a1_1%20Bed%201%20Bath%20593%20Sq.%20Ft.__annotated.png) | ![limestone rooms](data/outputs/limestone%20ranch_santa%20fe_625sq__annotated.png) | ![highlandlux rooms](data/outputs/highlandlux-citadel-1%20Bed%201%20Bath%20623%20Sq.%20Ft.__annotated.png) |
-| ![heritage walls](data/outputs/heritage%20towers_a1_1%20Bed%201%20Bath%20593%20Sq.%20Ft.__walls.png) | ![limestone walls](data/outputs/limestone%20ranch_santa%20fe_625sq__walls.png) | ![highlandlux walls](data/outputs/highlandlux-citadel-1%20Bed%201%20Bath%20623%20Sq.%20Ft.__walls.png) |
-
-The wall graph in numbers:
-
-| render | corners | junctions | free ends | centreline |
-| --- | ---: | ---: | ---: | ---: |
-| `heritage towers_a1` | 17 | 11 | 5 | 4191 px |
-| `limestone ranch_santa fe` | 15 | 15 | 0 | 4803 px |
-| `highlandlux-citadel` | 17 | 23 | 5 | 4781 px |
-
-`limestone` closes on its own - every wall there meets another. The free ends on
-the other two are real: walls that stop at a door opening, plus the balcony
-railing, which is structure but not wall.
 
 ### Area accuracy check
 
@@ -527,7 +448,7 @@ the 593 sq ft total from the filename:
 ```bash
 python main.py \
   --input "data/input_images/heritage towers_a1_1 Bed 1 Bath 593 Sq. Ft..webp" \
-  --output data/outputs --total-area-sqft 593
+  --batch --output data/outputs --total-area-sqft 593
 ```
 
 | room | drawn on the render | estimated | error |
@@ -577,18 +498,11 @@ render, not a benchmark.
    corner to corner would defeat it. Not a concern on anything plan-shaped - even
    cropped tight to the silhouette, the corners of the bounding box are still
    page - but it is the assumption the flip rests on.
-10. **The wall graph is not closed.** Walls stop at door openings, so the graph
-   has free ends and does not partition the plan into sealed loops. Bridging
-   them was tried and removed: it closed the network, but every join was an
-   invention and the graph stopped saying where the walls actually stop.
-11. **Railings end up in the graph.** A balcony railing is bright, neutral and
-   attached to the wall network, so it is thinned along with the walls and
-   contributes nodes that are not really architecture.
-12. **No test suite.** There is a startup check that the UI slider defaults sit
+10. **No test suite.** There is a startup check that the UI slider defaults sit
    on their step grid - it catches a real bug class, where the browser silently
    rounds a default and the page shows a result the pipeline cannot produce -
    but nothing else is covered automatically.
-13. **Single image, single storey.** No multi-floor handling, no stitching.
+11. **Single image, single storey.** No multi-floor handling, no stitching.
 
 ---
 
@@ -612,8 +526,12 @@ Roughly in order of value per hour:
 5. **SAM / promptable segmentation as an alternate backend** behind the same
    interface, with the classical pipeline producing the prompts. Keeps the
    result explainable while raising the ceiling on hard renders.
-6. **Door and window detection** to output a room adjacency graph, not just
-   regions — that is the representation downstream layout tools actually want.
+6. **A wall graph feeding the polygons.** Thinning the wall mask to
+   centrelines and deriving each room from the resulting cycles would give clean
+   straight-edged polygons instead of outlines traced from a noisy mask, and is
+   the representation CAD and BIM tools actually want. This was built and then
+   removed: it produced a good-looking graph but never fed the rooms, so it was
+   decoration rather than structure.
 7. **An evaluation set and a test suite.** Nothing here is scored against
    labelled data, so every judgement about wall and room quality is visual. A
    handful of hand-traced masks with an IoU score would let parameter changes be
@@ -641,11 +559,10 @@ floorplan/               the package
     annotations.py       stage 2 - printed callouts, occlusion repair
     walls.py             stages 3-5, 8 - barrier, colour veto, wall tops
     regions.py           stages 6-7 - rooms, fixture reclamation
-    wallgraph.py         stage 9 - thinning, centrelines, key points
-    polygons.py          stage 10 - simplification and regularisation
+    polygons.py          stage 9 - simplification and regularisation
 
   rendering/
-    overlay.py           room overlay and wall-graph view
+    overlay.py           room overlay and legend
 
   ui/
     service.py           AnalysisService - samples, uploads, caching

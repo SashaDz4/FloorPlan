@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Project entry point.
 
-    python main.py --input data/input_images --output data/outputs
-    python main.py --serve
+    python main.py                       # local UI on http://127.0.0.1:8000
+    python main.py --batch               # analyse everything, write files
 """
 
 import sys

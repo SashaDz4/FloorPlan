@@ -78,10 +78,6 @@ PAGE = """<!doctype html>
   <h1>Floor plan &rarr; 2D room layout</h1>
   <select id="sample"></select>
   <input type="file" id="upload" accept=".webp,.png,.jpg,.jpeg,.bmp,.tif,.tiff">
-  <select id="view">
-    <option value="rooms">rooms</option>
-    <option value="walls">wall graph</option>
-  </select>
   <span id="status" class="status"></span>
 </header>
 
@@ -95,7 +91,7 @@ PAGE = """<!doctype html>
   </section>
 
   <section class="panel">
-    <h2 id="viewTitle">Result</h2>
+    <h2>Result</h2>
     <div id="viewer"><span class="muted">Loading&hellip;</span></div>
   </section>
 
@@ -188,24 +184,13 @@ async function run(file) {
   }
 }
 
-function currentImage(data) {
-  return $("view").value === "walls"
-    ? [data.walls, "Wall graph - corners, junctions, ends"]
-    : [data.annotated, "Rooms"];
-}
-
 function render(data) {
-  const [b64, title] = currentImage(data);
-  $("viewTitle").textContent = title;
   $("viewer").innerHTML =
-    `<img alt="analysed plan" src="data:image/png;base64,${b64}">`;
+    `<img alt="analysed plan" src="data:image/png;base64,${data.annotated}">`;
 
   const r = data.report;
   $("summary").innerHTML = [
     ["regions", r.room_count],
-    ["wall corners", r.wall_graph.corner_count],
-    ["wall junctions", r.wall_graph.junction_count],
-    ["free wall ends", r.wall_graph.endpoint_count],
     ["room area px", r.total_room_area_px.toLocaleString()],
     ["wall tops px", r.wall_area_px.toLocaleString()],
     ["footprint px", r.footprint_area_px.toLocaleString()],
@@ -242,10 +227,8 @@ $("saveJson").onclick = () => {
 };
 $("savePng").onclick = () => {
   if (!current) return;
-  const [b64] = currentImage(current);
-  const suffix = {rooms: "__annotated", walls: "__walls"}[$("view").value];
-  const bytes = Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
-  download(stem() + suffix + ".png", new Blob([bytes], {type: "image/png"}));
+  const bytes = Uint8Array.from(atob(current.annotated), (c) => c.charCodeAt(0));
+  download(stem() + "__annotated.png", new Blob([bytes], {type: "image/png"}));
 };
 $("reset").onclick = () => {
   SPEC.forEach((p) => { $("p_" + p.name).value = p.default; });
@@ -253,16 +236,12 @@ $("reset").onclick = () => {
   run();
 };
 $("sample").onchange = () => run();
-// Both views arrive with every analysis, so switching never re-runs the pipeline.
-$("view").onchange = () => { if (current) render(current); };
 $("upload").onchange = (e) => { if (e.target.files[0]) run(e.target.files[0]); };
 
 // The current view is expressed in the URL, so a configuration can be
-// bookmarked or linked to: ?sample=...&view=walls&wall_delta=12
+// bookmarked or linked to: ?sample=...&wall_delta=12
 function applyUrlState() {
   const q = new URLSearchParams(location.search);
-  const view = q.get("view");
-  if (view && [...$("view").options].some((o) => o.value === view)) $("view").value = view;
   const sample = q.get("sample");
   if (sample && [...$("sample").options].some((o) => o.value === sample)) {
     $("sample").value = sample;
@@ -340,10 +319,10 @@ class Handler(BaseHTTPRequestHandler):
         started = time.perf_counter()
         try:
             if length:
-                report, annotated, walls = self.service.analyse_upload(
+                report, annotated = self.service.analyse_upload(
                     self.rfile.read(length), name, query)
             elif sample:
-                report, annotated, walls = self.service.analyse_sample(sample, query)
+                report, annotated = self.service.analyse_sample(sample, query)
             else:
                 self._json(400, {"error": "no sample selected and no file uploaded"})
                 return
@@ -357,7 +336,6 @@ class Handler(BaseHTTPRequestHandler):
         payload = {
             "report": report,
             "annotated": base64.b64encode(annotated).decode("ascii"),
-            "walls": base64.b64encode(walls).decode("ascii"),
             "elapsed_ms": round((time.perf_counter() - started) * 1000),
         }
         self._json(200, payload)

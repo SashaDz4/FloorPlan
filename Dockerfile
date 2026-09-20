@@ -18,4 +18,4 @@ ENV PYTHONUNBUFFERED=1
 EXPOSE 8000
 
 ENTRYPOINT ["python", "main.py"]
-CMD ["--input", "data/input_images", "--output", "data/outputs"]
+CMD ["--host", "0.0.0.0", "--port", "8000", "--input", "data/input_images"]

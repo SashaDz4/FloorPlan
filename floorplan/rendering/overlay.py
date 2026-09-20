@@ -25,14 +25,8 @@ PALETTE = [
 WALL_TINT = (58, 52, 48)
 WALL_ALPHA = 0.55
 
-# Wall graph, in BGR.
-CENTRELINE = (60, 220, 255)     # amber
-CORNER = (60, 60, 255)          # red - the wall turns here
-JUNCTION = (80, 230, 80)        # green - three or more walls meet
-ENDPOINT = (255, 200, 60)       # cyan - a free end
 
-
-def _legend_box(img, entries, shape="square") -> None:
+def _legend_box(img, entries) -> None:
     """White panel listing colour/label pairs, top-left."""
     if not entries:
         return
@@ -47,13 +41,9 @@ def _legend_box(img, entries, shape="square") -> None:
     cv2.rectangle(img, (x0, y0), (x0 + width, y0 + height), (170, 170, 170), 1)
     for i, (col, text) in enumerate(entries):
         cy = y0 + pad + i * line + line // 2
-        if shape == "circle":
-            cv2.circle(img, (x0 + pad + sw // 2, cy), 5, col, -1)
-            cv2.circle(img, (x0 + pad + sw // 2, cy), 5, (120, 120, 120), 1)
-        else:
-            cv2.rectangle(img, (x0 + pad, cy - 7), (x0 + pad + sw, cy + 7), col, -1)
-            cv2.rectangle(img, (x0 + pad, cy - 7), (x0 + pad + sw, cy + 7),
-                          (120, 120, 120), 1)
+        cv2.rectangle(img, (x0 + pad, cy - 7), (x0 + pad + sw, cy + 7), col, -1)
+        cv2.rectangle(img, (x0 + pad, cy - 7), (x0 + pad + sw, cy + 7),
+                      (120, 120, 120), 1)
         cv2.putText(img, text, (x0 + pad + sw + 8, cy + 5), font, sc,
                     (40, 40, 40), th, cv2.LINE_AA)
 
@@ -153,32 +143,3 @@ class Annotator:
         cv2.rectangle(img, tl, br, (255, 255, 255), -1)
         cv2.rectangle(img, tl, br, col, 1)
         cv2.putText(img, text, (x, y), font, sc, (30, 30, 30), th, cv2.LINE_AA)
-
-
-def graph_view(bgr: np.ndarray, graph) -> np.ndarray:
-    """The wall graph on its own: centrelines and key points over a dimmed plan.
-
-    Kept separate from the room overlay - stacking fills, room outlines,
-    centrelines and nodes into one image left none of them readable.
-    """
-    img = (bgr * 0.45 + 255 * 0.12).astype(np.uint8)
-
-    for edge in graph.edges:
-        pts = np.array(edge.polyline_px, np.int32).reshape(-1, 1, 2)
-        if len(pts) >= 2:
-            cv2.polylines(img, [pts], False, (30, 30, 30), 4, cv2.LINE_AA)
-            cv2.polylines(img, [pts], False, CENTRELINE, 2, cv2.LINE_AA)
-
-    style = {"corner": (CORNER, 6), "junction": (JUNCTION, 5),
-             "endpoint": (ENDPOINT, 5)}
-    for node in graph.nodes:
-        colour, radius = style.get(node.kind, (CENTRELINE, 3))
-        cv2.circle(img, (node.x, node.y), radius + 2, (255, 255, 255), -1)
-        cv2.circle(img, (node.x, node.y), radius, colour, -1)
-
-    _legend_box(img, [
-        (CORNER, f"corner - wall changes direction  ({len(graph.corners)})"),
-        (JUNCTION, f"junction - 3+ walls meet  ({len(graph.junctions)})"),
-        (ENDPOINT, f"free wall end  ({len(graph.endpoints)})"),
-    ], shape="circle")
-    return img

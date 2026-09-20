@@ -57,19 +57,6 @@ class Config:
     fixture_margin_frac: float = 0.008
     fixture_min_area_frac: float = 0.0001
 
-    # Wall graph ------------------------------------------------------------
-    graph_prune_frac: float = 0.018
-    """Dead-end branches shorter than this are thinning artefacts, not walls."""
-    graph_merge_frac: float = 0.030
-    """Edges shorter than this are contracted: thinning leaves several branch
-    points a few pixels apart at a thick junction, and they are one corner."""
-    graph_stub_frac: float = 0.045
-    """Dead-end edges shorter than this are artefacts, not free wall ends."""
-    graph_simplify_frac: float = 0.005
-    """RDP epsilon for the centreline polylines."""
-    graph_corner_deg: float = 25.0
-    """Direction change that counts as a corner rather than a straight run."""
-
     # Polygons --------------------------------------------------------------
     poly_smooth_frac: float = 0.008
     poly_eps_frac: float = 0.005
