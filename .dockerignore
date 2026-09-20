@@ -1,0 +1,6 @@
+.venv/
+.idea/
+data/outputs/
+__pycache__/
+*.pyc
+.git/

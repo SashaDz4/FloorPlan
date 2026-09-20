@@ -1,0 +1,1468 @@
+{
+  "image": "limestone ranch_santa fe_625sq.webp",
+  "image_size": {
+    "width": 1140,
+    "height": 855
+  },
+  "units": "pixels",
+  "wall_brightness_mode": 238,
+  "polarity_inverted": false,
+  "annotation_removed_px": 0,
+  "footprint_area_px": 416436,
+  "wall_area_px": 61945,
+  "wall_barrier_area_px": 62593,
+  "total_room_area_px": 353840,
+  "room_count": 10,
+  "calibration": null,
+  "wall_graph": {
+    "node_count": 30,
+    "edge_count": 23,
+    "corner_count": 15,
+    "junction_count": 15,
+    "endpoint_count": 0,
+    "total_length_px": 4802.9,
+    "nodes": [
+      {
+        "id": 1,
+        "point_px": [
+          612,
+          716
+        ],
+        "kind": "junction",
+        "degree": 4
+      },
+      {
+        "id": 2,
+        "point_px": [
+          401,
+          148
+        ],
+        "kind": "junction",
+        "degree": 3
+      },
+      {
+        "id": 3,
+        "point_px": [
+          606,
+          147
+        ],
+        "kind": "junction",
+        "degree": 3
+      },
+      {
+        "id": 4,
+        "point_px": [
+          332,
+          149
+        ],
+        "kind": "junction",
+        "degree": 3
+      },
+      {
+        "id": 5,
+        "point_px": [
+          902,
+          422
+        ],
+        "kind": "junction",
+        "degree": 3
+      },
+      {
+        "id": 6,
+        "point_px": [
+          605,
+          469
+        ],
+        "kind": "junction",
+        "degree": 3
+      },
+      {
+        "id": 7,
+        "point_px": [
+          228,
+          512
+        ],
+        "kind": "junction",
+        "degree": 3
+      },
+      {
+        "id": 8,
+        "point_px": [
+          635,
+          538
+        ],
+        "kind": "junction",
+        "degree": 3
+      },
+      {
+        "id": 9,
+        "point_px": [
+          601,
+          549
+        ],
+        "kind": "junction",
+        "degree": 3
+      },
+      {
+        "id": 10,
+        "point_px": [
+          224,
+          559
+        ],
+        "kind": "junction",
+        "degree": 3
+      },
+      {
+        "id": 11,
+        "point_px": [
+          312,
+          559
+        ],
+        "kind": "junction",
+        "degree": 3
+      },
+      {
+        "id": 12,
+        "point_px": [
+          636,
+          575
+        ],
+        "kind": "junction",
+        "degree": 3
+      },
+      {
+        "id": 13,
+        "point_px": [
+          726,
+          575
+        ],
+        "kind": "junction",
+        "degree": 3
+      },
+      {
+        "id": 14,
+        "point_px": [
+          915,
+          583
+        ],
+        "kind": "junction",
+        "degree": 3
+      },
+      {
+        "id": 15,
+        "point_px": [
+          301,
+          738
+        ],
+        "kind": "junction",
+        "degree": 3
+      },
+      {
+        "id": 16,
+        "point_px": [
+          638,
+          688
+        ],
+        "kind": "corner",
+        "degree": 2,
+        "angle_deg": 44.8
+      },
+      {
+        "id": 17,
+        "point_px": [
+          407,
+          55
+        ],
+        "kind": "corner",
+        "degree": 2,
+        "angle_deg": 89.9
+      },
+      {
+        "id": 18,
+        "point_px": [
+          342,
+          52
+        ],
+        "kind": "corner",
+        "degree": 2,
+        "angle_deg": 47.6
+      },
+      {
+        "id": 19,
+        "point_px": [
+          876,
+          147
+        ],
+        "kind": "corner",
+        "degree": 2,
+        "angle_deg": 84.6
+      },
+      {
+        "id": 20,
+        "point_px": [
+          723,
+          434
+        ],
+        "kind": "corner",
+        "degree": 2,
+        "angle_deg": 90.9
+      },
+      {
+        "id": 21,
+        "point_px": [
+          239,
+          386
+        ],
+        "kind": "corner",
+        "degree": 2,
+        "angle_deg": 83.5
+      },
+      {
+        "id": 22,
+        "point_px": [
+          316,
+          384
+        ],
+        "kind": "corner",
+        "degree": 2,
+        "angle_deg": 84.6
+      },
+      {
+        "id": 23,
+        "point_px": [
+          634,
+          471
+        ],
+        "kind": "corner",
+        "degree": 2,
+        "angle_deg": 82.9
+      },
+      {
+        "id": 24,
+        "point_px": [
+          314,
+          503
+        ],
+        "kind": "corner",
+        "degree": 2,
+        "angle_deg": 90.4
+      },
+      {
+        "id": 25,
+        "point_px": [
+          816,
+          575
+        ],
+        "kind": "corner",
+        "degree": 2,
+        "angle_deg": 32.9
+      },
+      {
+        "id": 26,
+        "point_px": [
+          833,
+          586
+        ],
+        "kind": "corner",
+        "degree": 2,
+        "angle_deg": 32.9
+      },
+      {
+        "id": 27,
+        "point_px": [
+          567,
+          689
+        ],
+        "kind": "corner",
+        "degree": 2,
+        "angle_deg": 39.6
+      },
+      {
+        "id": 28,
+        "point_px": [
+          567,
+          554
+        ],
+        "kind": "corner",
+        "degree": 2,
+        "angle_deg": 31.0
+      },
+      {
+        "id": 29,
+        "point_px": [
+          208,
+          736
+        ],
+        "kind": "corner",
+        "degree": 2,
+        "angle_deg": 93.6
+      },
+      {
+        "id": 30,
+        "point_px": [
+          928,
+          738
+        ],
+        "kind": "corner",
+        "degree": 2,
+        "angle_deg": 88.4
+      }
+    ],
+    "edges": [
+      {
+        "id": 1,
+        "from": 2,
+        "to": 3,
+        "polyline_px": [
+          [
+            401,
+            148
+          ],
+          [
+            405,
+            147
+          ],
+          [
+            604,
+            147
+          ],
+          [
+            606,
+            147
+          ]
+        ],
+        "length_px": 205.1
+      },
+      {
+        "id": 2,
+        "from": 4,
+        "to": 2,
+        "polyline_px": [
+          [
+            332,
+            149
+          ],
+          [
+            334,
+            149
+          ],
+          [
+            398,
+            149
+          ],
+          [
+            401,
+            148
+          ]
+        ],
+        "length_px": 69.2
+      },
+      {
+        "id": 3,
+        "from": 6,
+        "to": 9,
+        "polyline_px": [
+          [
+            605,
+            469
+          ],
+          [
+            600,
+            473
+          ],
+          [
+            601,
+            547
+          ],
+          [
+            601,
+            549
+          ]
+        ],
+        "length_px": 82.4
+      },
+      {
+        "id": 4,
+        "from": 7,
+        "to": 10,
+        "polyline_px": [
+          [
+            228,
+            512
+          ],
+          [
+            226,
+            523
+          ],
+          [
+            224,
+            557
+          ],
+          [
+            224,
+            559
+          ]
+        ],
+        "length_px": 47.2
+      },
+      {
+        "id": 5,
+        "from": 9,
+        "to": 8,
+        "polyline_px": [
+          [
+            601,
+            549
+          ],
+          [
+            603,
+            549
+          ],
+          [
+            633,
+            549
+          ],
+          [
+            635,
+            538
+          ]
+        ],
+        "length_px": 43.2
+      },
+      {
+        "id": 6,
+        "from": 8,
+        "to": 12,
+        "polyline_px": [
+          [
+            635,
+            538
+          ],
+          [
+            635,
+            551
+          ],
+          [
+            635,
+            573
+          ],
+          [
+            636,
+            575
+          ]
+        ],
+        "length_px": 37.2
+      },
+      {
+        "id": 7,
+        "from": 10,
+        "to": 11,
+        "polyline_px": [
+          [
+            224,
+            559
+          ],
+          [
+            226,
+            559
+          ],
+          [
+            310,
+            559
+          ],
+          [
+            312,
+            559
+          ]
+        ],
+        "length_px": 88.0
+      },
+      {
+        "id": 8,
+        "from": 12,
+        "to": 13,
+        "polyline_px": [
+          [
+            636,
+            575
+          ],
+          [
+            638,
+            575
+          ],
+          [
+            724,
+            575
+          ],
+          [
+            726,
+            575
+          ]
+        ],
+        "length_px": 90.0
+      },
+      {
+        "id": 9,
+        "from": 12,
+        "to": 1,
+        "polyline_px": [
+          [
+            636,
+            575
+          ],
+          [
+            636,
+            577
+          ],
+          [
+            638,
+            688
+          ],
+          [
+            612,
+            716
+          ]
+        ],
+        "length_px": 151.2
+      },
+      {
+        "id": 10,
+        "from": 1,
+        "to": 15,
+        "polyline_px": [
+          [
+            612,
+            716
+          ],
+          [
+            590,
+            732
+          ],
+          [
+            570,
+            738
+          ],
+          [
+            303,
+            738
+          ],
+          [
+            301,
+            738
+          ]
+        ],
+        "length_px": 317.1
+      },
+      {
+        "id": 11,
+        "from": 2,
+        "to": 4,
+        "polyline_px": [
+          [
+            401,
+            148
+          ],
+          [
+            403,
+            145
+          ],
+          [
+            407,
+            55
+          ],
+          [
+            342,
+            52
+          ],
+          [
+            338,
+            56
+          ],
+          [
+            332,
+            147
+          ],
+          [
+            332,
+            149
+          ]
+        ],
+        "length_px": 257.6
+      },
+      {
+        "id": 12,
+        "from": 3,
+        "to": 5,
+        "polyline_px": [
+          [
+            606,
+            147
+          ],
+          [
+            608,
+            147
+          ],
+          [
+            876,
+            147
+          ],
+          [
+            901,
+            410
+          ],
+          [
+            902,
+            422
+          ]
+        ],
+        "length_px": 546.2
+      },
+      {
+        "id": 13,
+        "from": 5,
+        "to": 13,
+        "polyline_px": [
+          [
+            902,
+            422
+          ],
+          [
+            901,
+            433
+          ],
+          [
+            723,
+            434
+          ],
+          [
+            726,
+            573
+          ],
+          [
+            726,
+            575
+          ]
+        ],
+        "length_px": 330.1
+      },
+      {
+        "id": 14,
+        "from": 3,
+        "to": 6,
+        "polyline_px": [
+          [
+            606,
+            147
+          ],
+          [
+            606,
+            149
+          ],
+          [
+            609,
+            466
+          ],
+          [
+            605,
+            469
+          ]
+        ],
+        "length_px": 324.0
+      },
+      {
+        "id": 15,
+        "from": 7,
+        "to": 4,
+        "polyline_px": [
+          [
+            228,
+            512
+          ],
+          [
+            229,
+            500
+          ],
+          [
+            239,
+            386
+          ],
+          [
+            316,
+            384
+          ],
+          [
+            332,
+            151
+          ],
+          [
+            332,
+            149
+          ]
+        ],
+        "length_px": 439.1
+      },
+      {
+        "id": 16,
+        "from": 6,
+        "to": 8,
+        "polyline_px": [
+          [
+            605,
+            469
+          ],
+          [
+            610,
+            468
+          ],
+          [
+            634,
+            471
+          ],
+          [
+            634,
+            526
+          ],
+          [
+            635,
+            538
+          ]
+        ],
+        "length_px": 96.3
+      },
+      {
+        "id": 17,
+        "from": 7,
+        "to": 11,
+        "polyline_px": [
+          [
+            228,
+            512
+          ],
+          [
+            231,
+            502
+          ],
+          [
+            314,
+            503
+          ],
+          [
+            313,
+            558
+          ],
+          [
+            312,
+            559
+          ]
+        ],
+        "length_px": 149.9
+      },
+      {
+        "id": 18,
+        "from": 14,
+        "to": 5,
+        "polyline_px": [
+          [
+            915,
+            583
+          ],
+          [
+            916,
+            577
+          ],
+          [
+            904,
+            435
+          ],
+          [
+            902,
+            422
+          ]
+        ],
+        "length_px": 161.7
+      },
+      {
+        "id": 19,
+        "from": 13,
+        "to": 14,
+        "polyline_px": [
+          [
+            726,
+            575
+          ],
+          [
+            728,
+            575
+          ],
+          [
+            816,
+            575
+          ],
+          [
+            833,
+            586
+          ],
+          [
+            912,
+            586
+          ],
+          [
+            915,
+            583
+          ]
+        ],
+        "length_px": 193.5
+      },
+      {
+        "id": 20,
+        "from": 11,
+        "to": 15,
+        "polyline_px": [
+          [
+            312,
+            559
+          ],
+          [
+            312,
+            561
+          ],
+          [
+            301,
+            736
+          ],
+          [
+            301,
+            738
+          ]
+        ],
+        "length_px": 179.3
+      },
+      {
+        "id": 21,
+        "from": 1,
+        "to": 9,
+        "polyline_px": [
+          [
+            612,
+            716
+          ],
+          [
+            596,
+            724
+          ],
+          [
+            567,
+            689
+          ],
+          [
+            567,
+            554
+          ],
+          [
+            570,
+            549
+          ],
+          [
+            599,
+            549
+          ],
+          [
+            601,
+            549
+          ]
+        ],
+        "length_px": 235.2
+      },
+      {
+        "id": 22,
+        "from": 15,
+        "to": 10,
+        "polyline_px": [
+          [
+            301,
+            738
+          ],
+          [
+            299,
+            738
+          ],
+          [
+            208,
+            736
+          ],
+          [
+            223,
+            561
+          ],
+          [
+            224,
+            559
+          ]
+        ],
+        "length_px": 270.9
+      },
+      {
+        "id": 23,
+        "from": 14,
+        "to": 1,
+        "polyline_px": [
+          [
+            915,
+            583
+          ],
+          [
+            916,
+            590
+          ],
+          [
+            929,
+            703
+          ],
+          [
+            928,
+            738
+          ],
+          [
+            636,
+            738
+          ],
+          [
+            609,
+            727
+          ],
+          [
+            612,
+            716
+          ]
+        ],
+        "length_px": 488.4
+      }
+    ]
+  },
+  "rejected_regions": [],
+  "config": {
+    "bg_value_min": 248,
+    "bg_sat_max": 6,
+    "overlay_min_glyphs": 4,
+    "overlay_glyph_contrast": 90,
+    "overlay_glyph_max_frac": 0.05,
+    "overlay_pad_frac": 0.8,
+    "overlay_bridge_pad_frac": 0.35,
+    "wall_delta": 8,
+    "wall_sat_max": 40,
+    "wall_close_px": 3,
+    "wall_band_frac": 0.012,
+    "wall_b_tolerance": 3.0,
+    "wall_offcolour_min_frac": 0.015,
+    "wall_top_tolerance": 8,
+    "door_sever_frac": 0.04,
+    "core_min_area_frac": 0.002,
+    "region_min_area_frac": 0.004,
+    "min_inscribed_frac": 0.016,
+    "fixture_radius_percentile": 80.0,
+    "fixture_max_reach_frac": 0.016,
+    "fixture_margin_frac": 0.008,
+    "fixture_min_area_frac": 0.0001,
+    "graph_prune_frac": 0.018,
+    "graph_merge_frac": 0.03,
+    "graph_stub_frac": 0.045,
+    "graph_simplify_frac": 0.005,
+    "graph_corner_deg": 25.0,
+    "poly_smooth_frac": 0.008,
+    "poly_eps_frac": 0.005,
+    "poly_min_edge_frac": 0.013,
+    "poly_collinear_deg": 9.0,
+    "poly_spike_deg": 32.0,
+    "hole_min_area_frac": 0.004
+  },
+  "rooms": [
+    {
+      "id": "room_01",
+      "area_px": 161977,
+      "relative_area": 0.4578,
+      "relative_area_of_footprint": 0.389,
+      "centroid_px": [
+        447,
+        438
+      ],
+      "bbox_px": [
+        237,
+        154,
+        368,
+        576
+      ],
+      "open_boundary_ratio": 0.0,
+      "polygon_px": [
+        [
+          339,
+          154
+        ],
+        [
+          324,
+          389
+        ],
+        [
+          246,
+          393
+        ],
+        [
+          237,
+          494
+        ],
+        [
+          326,
+          501
+        ],
+        [
+          307,
+          729
+        ],
+        [
+          562,
+          729
+        ],
+        [
+          576,
+          716
+        ],
+        [
+          562,
+          701
+        ],
+        [
+          562,
+          548
+        ],
+        [
+          596,
+          544
+        ],
+        [
+          593,
+          467
+        ],
+        [
+          604,
+          463
+        ],
+        [
+          602,
+          154
+        ]
+      ],
+      "holes_px": [],
+      "polygon_area_px": 161150,
+      "is_enclosed": true
+    },
+    {
+      "id": "room_02",
+      "area_px": 87148,
+      "relative_area": 0.2463,
+      "relative_area_of_footprint": 0.2093,
+      "centroid_px": [
+        738,
+        321
+      ],
+      "bbox_px": [
+        611,
+        154,
+        286,
+        417
+      ],
+      "open_boundary_ratio": 0.0,
+      "polygon_px": [
+        [
+          872,
+          154
+        ],
+        [
+          611,
+          154
+        ],
+        [
+          615,
+          463
+        ],
+        [
+          639,
+          467
+        ],
+        [
+          642,
+          570
+        ],
+        [
+          721,
+          570
+        ],
+        [
+          719,
+          430
+        ],
+        [
+          896,
+          429
+        ]
+      ],
+      "holes_px": [],
+      "polygon_area_px": 86488,
+      "is_enclosed": true
+    },
+    {
+      "id": "room_03",
+      "area_px": 39413,
+      "relative_area": 0.1114,
+      "relative_area_of_footprint": 0.0946,
+      "centroid_px": [
+        775,
+        659
+      ],
+      "bbox_px": [
+        629,
+        581,
+        294,
+        149
+      ],
+      "open_boundary_ratio": 0.0,
+      "polygon_px": [
+        [
+          642,
+          581
+        ],
+        [
+          643,
+          700
+        ],
+        [
+          629,
+          715
+        ],
+        [
+          645,
+          729
+        ],
+        [
+          922,
+          729
+        ],
+        [
+          912,
+          603
+        ],
+        [
+          903,
+          598
+        ],
+        [
+          827,
+          598
+        ],
+        [
+          811,
+          581
+        ]
+      ],
+      "holes_px": [],
+      "polygon_area_px": 39009,
+      "is_enclosed": true
+    },
+    {
+      "id": "room_04",
+      "area_px": 23392,
+      "relative_area": 0.0661,
+      "relative_area_of_footprint": 0.0562,
+      "centroid_px": [
+        817,
+        506
+      ],
+      "bbox_px": [
+        726,
+        439,
+        183,
+        137
+      ],
+      "open_boundary_ratio": 0.0,
+      "polygon_px": [
+        [
+          726,
+          439
+        ],
+        [
+          732,
+          570
+        ],
+        [
+          827,
+          570
+        ],
+        [
+          834,
+          575
+        ],
+        [
+          906,
+          572
+        ],
+        [
+          897,
+          439
+        ]
+      ],
+      "holes_px": [],
+      "polygon_area_px": 23094,
+      "is_enclosed": true
+    },
+    {
+      "id": "room_05",
+      "area_px": 13000,
+      "relative_area": 0.0367,
+      "relative_area_of_footprint": 0.0312,
+      "centroid_px": [
+        263,
+        648
+      ],
+      "bbox_px": [
+        217,
+        565,
+        91,
+        165
+      ],
+      "open_boundary_ratio": 0.0,
+      "polygon_px": [
+        [
+          231,
+          565
+        ],
+        [
+          217,
+          729
+        ],
+        [
+          296,
+          729
+        ],
+        [
+          307,
+          565
+        ]
+      ],
+      "holes_px": [],
+      "polygon_area_px": 12758,
+      "is_enclosed": true
+    },
+    {
+      "id": "room_06",
+      "area_px": 10213,
+      "relative_area": 0.0289,
+      "relative_area_of_footprint": 0.0245,
+      "centroid_px": [
+        516,
+        110
+      ],
+      "bbox_px": [
+        411,
+        47,
+        198,
+        95
+      ],
+      "open_boundary_ratio": 0.553,
+      "polygon_px": [
+        [
+          607,
+          47
+        ],
+        [
+          579,
+          48
+        ],
+        [
+          575,
+          99
+        ],
+        [
+          440,
+          101
+        ],
+        [
+          433,
+          95
+        ],
+        [
+          423,
+          58
+        ],
+        [
+          414,
+          59
+        ],
+        [
+          411,
+          140
+        ],
+        [
+          602,
+          141
+        ]
+      ],
+      "holes_px": [],
+      "polygon_area_px": 9924,
+      "is_enclosed": false
+    },
+    {
+      "id": "room_07",
+      "area_px": 8347,
+      "relative_area": 0.0236,
+      "relative_area_of_footprint": 0.02,
+      "centroid_px": [
+        602,
+        625
+      ],
+      "bbox_px": [
+        572,
+        555,
+        62,
+        150
+      ],
+      "open_boundary_ratio": 0.0,
+      "polygon_px": [
+        [
+          573,
+          555
+        ],
+        [
+          576,
+          684
+        ],
+        [
+          602,
+          704
+        ],
+        [
+          629,
+          684
+        ],
+        [
+          631,
+          555
+        ]
+      ],
+      "holes_px": [],
+      "polygon_area_px": 8162,
+      "is_enclosed": true
+    },
+    {
+      "id": "room_08",
+      "area_px": 4888,
+      "relative_area": 0.0138,
+      "relative_area_of_footprint": 0.0117,
+      "centroid_px": [
+        370,
+        102
+      ],
+      "bbox_px": [
+        340,
+        59,
+        61,
+        88
+      ],
+      "open_boundary_ratio": 0.0,
+      "polygon_px": [
+        [
+          346,
+          59
+        ],
+        [
+          340,
+          145
+        ],
+        [
+          395,
+          145
+        ],
+        [
+          400,
+          60
+        ]
+      ],
+      "holes_px": [],
+      "polygon_area_px": 4747,
+      "is_enclosed": true
+    },
+    {
+      "id": "room_09",
+      "area_px": 3591,
+      "relative_area": 0.0101,
+      "relative_area_of_footprint": 0.0086,
+      "centroid_px": [
+        272,
+        531
+      ],
+      "bbox_px": [
+        232,
+        508,
+        80,
+        47
+      ],
+      "open_boundary_ratio": 0.0,
+      "polygon_px": [
+        [
+          236,
+          508
+        ],
+        [
+          232,
+          554
+        ],
+        [
+          308,
+          554
+        ],
+        [
+          311,
+          508
+        ]
+      ],
+      "holes_px": [],
+      "polygon_area_px": 3468,
+      "is_enclosed": true
+    },
+    {
+      "id": "room_10",
+      "area_px": 1871,
+      "relative_area": 0.0053,
+      "relative_area_of_footprint": 0.0045,
+      "centroid_px": [
+        618,
+        509
+      ],
+      "bbox_px": [
+        605,
+        473,
+        27,
+        72
+      ],
+      "open_boundary_ratio": 0.0,
+      "polygon_px": [
+        [
+          605,
+          473
+        ],
+        [
+          606,
+          544
+        ],
+        [
+          631,
+          544
+        ],
+        [
+          630,
+          473
+        ]
+      ],
+      "holes_px": [],
+      "polygon_area_px": 1776,
+      "is_enclosed": true
+    }
+  ]
+}

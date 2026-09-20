@@ -1,0 +1,23 @@
+services:
+  # Batch run: analyse every image in data/input_images into data/outputs.
+  floorplan:
+    build: .
+    image: floorplan-2d:latest
+    working_dir: /app
+    volumes:
+      - ./data:/app/data
+    command: ["--input", "data/input_images", "--output", "data/outputs"]
+
+  # Local UI: docker compose up ui, then open http://localhost:8000
+  # 0.0.0.0 is needed for the container to accept the forwarded port; the
+  # published mapping below is what limits exposure to this machine.
+  ui:
+    build: .
+    image: floorplan-2d:latest
+    working_dir: /app
+    volumes:
+      - ./data:/app/data:ro
+    ports:
+      - "127.0.0.1:8000:8000"
+    command: ["--serve", "--host", "0.0.0.0", "--port", "8000",
+              "--input", "data/input_images"]

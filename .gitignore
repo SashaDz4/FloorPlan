@@ -1,0 +1,7 @@
+.venv/
+.idea/
+__pycache__/
+*.pyc
+
+# data/outputs/ is intentionally NOT ignored: the annotated images and room
+# JSON are deliverables and should be committed alongside the code.
